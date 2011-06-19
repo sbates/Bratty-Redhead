@@ -1,0 +1,3 @@
+ {
+	"run_list":  ["recipe[apache2]", "recipe[fail2ban]", "recipe[git]", "recipe[postfix]", "recipe[wordpress]" ]
+}

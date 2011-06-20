@@ -111,7 +111,7 @@ rescue
     source "grants.sql.erb"
     owner "root"
     group "root"
-    mode "0700"
+    mode "0600"
     action :create
   end
 end

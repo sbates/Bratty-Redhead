@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Reason #eleventyseven to automate - WYSIWYG</title>
+  <meta name="author" content="Sascha Bates">
+
+  
+  <meta name="description" content="About 4 years ago, I was working for a remote client, building a large, fragile Yantra/WebSphere environment.&nbsp; The client had chosen to use the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://brattyredhead.com/blog/2011/06/24/reason-eleventyseven-to-automate">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="WYSIWYG" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">WYSIWYG</a></h1>
+  
+    <h2>no subtext here</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:brattyredhead.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Reason #eleventyseven to Automate</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-24T00:00:00-05:00" pubdate data-updated="true">Jun 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>About 4 years ago, I was working for a remote client, building a  large, fragile Yantra/WebSphere environment.&nbsp; The client had chosen to  use the WebSphere embedded messaging engine (instead of MQ) for systems  critical order processing.&nbsp; The project was big, I was busy, traveling  to the client site every week and I had a constant backlog of work.&nbsp; It  seemed like there was never enough time or people to get all the work  done.<p />One day the dev team came to me with their list of 15  queues that needed configuring in dev.&nbsp; I was already overrun, had no  time and typically working 12 hours or more on the days I was onsite.<p />If  you&#8217;ve ever worked with WebSphere, you know that you pretty much get  two choices for configs: the GUI console or scripts.&nbsp; The scripting  language is based on either jython or tcl but the WebSphere specific DSL  is a bitch to deal with if you don&#8217;t know the syntax really well.<p />I  really wanted to write some WebSphere scripts to install and configure  the queues, but I told myself I just didn&#8217;t have time, what with all of  the probable debugging and figuring out how to deal with the syntactical  challenges.&nbsp; I figured it would take me less time and I&#8217;d just kick out  the queue configs super quick via the GUI.&nbsp; The GUI is tedious but not  hard and I didn&#8217;t have time to play with scripting, I thought.<p />Except.&nbsp;  All the naming was wrong apparently.&nbsp; All the queues had to be deleted a  few days later and re-created.&nbsp; I told myself the second time that it  wouldn&#8217;t happen again and I&#8217;d just be wasting valuable time, writing  scripts that wouldn&#8217;t be used again.<p />Except.&nbsp; They had to be  recreated a few times in the Test environment, for several reasons.&nbsp; And  then eventually they were revamped again to match up better with  something else.&nbsp; Not to mention we had to do the work on the queues in  prod.&nbsp; I hear that, after the project went live, they reconfigured the  queues a few more times after that.<p />This situation is one of the  more glaring moments where I can look back and say, man, you should have  taken the couple or 3 hours to write some automation scripts for a  seemingly trivial task.&nbsp; This would have made sense for several reasons:</p>
+<ul>
+<li>3 hours of concentrated (and let&#8217;s face it fun) time to get some  scripts written, instead of numerous occasions being interrupted to do  trivial admin work by hand</li>
+<li>&nbsp;If I had written a script, anyone on the team or even someone from the noc could have done the work instead</li>
+<li>I might have left something after the project that was useful in the  long run as a legacy and as an example for further scripting for the  admins who stayed behind</li>
+</ul>
+<p><br />I was just telling this story last week and thought that it could  really stand repeating for posterity.&nbsp; Taking the extra time to write a  script that automates a lame manual process is NEVER time wasted.&nbsp; Not  ever.&nbsp; And if anyone tries to tell you differently, you&#8217;re probably too  smart to be working with them.<br />﻿</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sascha Bates</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-24T00:00:00-05:00" pubdate data-updated="true">Jun 24<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://brattyredhead.com/blog/2011/06/24/reason-eleventyseven-to-automate/" data-via="sascha_d" data-counturl="http://brattyredhead.com/blog/2011/06/24/reason-eleventyseven-to-automate/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/24/59995517/" title="Previous Post: My ohai plugin">&laquo; My ohai plugin</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/07/21/wherein-sascha-ponders-a-question-thats-alrea/" title="Next Post: Wherein Sascha ponders a question that's already been asked a million times">Wherein Sascha ponders a question that's already been asked a million times &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/27/finding-sanity-with-chef/">Finding Sanity With Chef</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/08/test/">test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/27/my-favorite-jvm-arg-ever/">My Favorite JVM Arg EVER</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/26/the-alien-technology-tuning-challenge/">The Alien Technology Tuning Challenge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/15/yak-hacking/">Yak Hacking - A Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/01/weekend-chef-and-puppet-projects/">Weekend Chef and Puppet Projects</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/26/annoying-recruiter-call-45/">Annoying Recruiter Call #45</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/23/i-am-not-a-fangirl/">I am not a fangirl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/19/puppet-for-chef-users-part-2-when-is-a-node-a/">Puppet for Chef Users - Part 2 - When is a node a node? </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/07/puppet-for-chef-users/">Puppet for Chef Users</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sascha_d", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sascha_d" class="twitter-follow-button" data-show-count="false">Follow @sascha_d</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:sascha_d">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "sascha_d"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sascha Bates -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

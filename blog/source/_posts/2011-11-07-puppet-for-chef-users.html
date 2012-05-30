@@ -1,0 +1,33 @@
+--- 
+layout: post
+title: Puppet for Chef Users
+published: true
+date: 2011-11-07
+categories: []
+
+posterous_url: http://blog.brattyredhead.com/puppet-for-chef-users
+posterous_slug: puppet-for-chef-users
+---
+<p>I picked up a Puppet gig recently.&nbsp; The client already has an OS level Puppet install working.&nbsp; My job is to use my understanding of automation tooling to configure an app stack.&nbsp; I was pretty cocky.&nbsp; I thought, well, I really know Chef after over a year working with it and extending it at another client, how hard can Puppet be?&nbsp;</p>
+<p>It's not hard really.&nbsp; But it's not cooperative either.&nbsp; They look really similar, Puppet and Chef, but I'm finding it hard to get Puppet to do what I want.&nbsp; First, I need to figure out what I want to do.&nbsp; Then I automatically consider how I would do it in chef.&nbsp; Then I have to figure out how to do it in Puppet.&nbsp; This is harder than it sounds as a direct translation of something is not always the most useful, graceful or appropriate method.</p>
+<p>I keep wishing I could find an article or manual on the Interwebs called something like "Puppet for Chef Users," where it would translate all the things done in Chef to what they do in Puppet.&nbsp; I haven't found it.&nbsp; And I don't have all the answers.&nbsp; As you can see here, I actually have very few answers.&nbsp; None really.&nbsp; But I'm eking out answers as I go.</p>
+<p>Example: I want to set a node attribute.&nbsp;</p>
+<p>Well, hm.&nbsp; Ok.&nbsp; A node is still a node(mostly) in Puppet.&nbsp; Puppet has Facter instead of Ohai.&nbsp; Right, I knew that.&nbsp; So, then I have to address the philosophical question, is that the correct way to do what I want?&nbsp; Do I add things like myapp_home, java_install_dir to Facter?&nbsp; Yah, I think I do.&nbsp; I want stuff outside the myapp module to know where the myapp log dir is, maybe (it could happen).</p>
+<p>Let's say I do want to add custom facts.&nbsp; That's just like node attributes aren't they?&nbsp; I'm still not positive, but I've got to make a decision and start coding something.&nbsp; I can always revise if I'm wrong.</p>
+<p>Alright, where's the attributes file?&nbsp; Whoops!&nbsp; No attribute file.&nbsp; I <a href="http://forge.puppetlabs.com/tags/webserversdownloaded" target="_blank">downloaded a sample Apache module from puppet labs </a>in order to have an example to work with.&nbsp; I needed the example to be complex enough to have custom attributes but not so complicated I couldn't read it.&nbsp; I figured an Apache server was a good compromise.&nbsp;</p>
+<p>I found that Puppet modules can define new facts in the lib directory of the module.&nbsp; Strangely, at first I thought it was defined in a directory called 'plugins' as I first noticed the new facts defined there.&nbsp; But as I read the <a href="http://docs.puppetlabs.com/guides/plugins_in_modules.html" target="_blank">documentation on defining new facts</a>, I realized that was the old directory. The new way dictates that all custom code goes in modules/myapp/lib.&nbsp;</p>
+<p>The directory storing new facts has small rb files with code similar to ohai snippets.&nbsp; This seemed like more coding than I needed, but I'm still not sure how to just set an attribute without writing a code snippet.&nbsp; Here's the code example I found:</p>
+<p>require 'facter'<br />Facter.add(:gem_passenger_version) do<br />&nbsp;&nbsp;&nbsp; setcode do %x{rpmquery --qf='%{VERSION}' rubygem-passenger} end<br />end</p>
+<p>here's my experimental code:</p>
+<p>require 'facter'<br />myapp_facts={"myapp_home" =&gt; "/opt/myapp", "myapp_server_dir" =&gt; "/opt/myapp/server","myapp_log_dir" =&gt; "/var/log/myapp"}<p />myapp_facts.each do |k,v|<br />&nbsp; Facter.add(k) do<br />&nbsp;&nbsp;&nbsp; setcode do { k=v } end<br />&nbsp; end<br />end</p>
+<p>This is what came out of testing:</p>
+<p>[root@pixel rubylib]#&nbsp; RUBYLIB=. facter|grep myapp<br />myapp_home =&gt; /opt/myapp<br />myapp_log_dir =&gt; /var/log/myapp<br />myapp_server_dir =&gt; /opt/myapp/server</p>
+<p>So yay!&nbsp; I figured it out. I added my puppet equivalent of node attributes.&nbsp; Kind of.&nbsp; As far as I can tell, Facter is not hierarchical a la Ohai, so my node attributes are flattened instead of in a hierarchy.</p>
+<p>To recap, in Chef/In Puppet:</p>
+<ul>
+<li>Ohai/Facter</li>
+<li>node attributes/facts</li>
+<li>ohai is hierarchical json: facter is flat key =&gt; value pairs</li>
+<li>chef node attributes are defined in myapp/attributes/attribute.rb/Puppet facts are defined in myapp/lib/facts&nbsp;</li>
+</ul>
+<p>Coming soon, my adventures with Hiera and data storage, also Puppet ruby DSL vs Puppet Puppet DSL.</p>

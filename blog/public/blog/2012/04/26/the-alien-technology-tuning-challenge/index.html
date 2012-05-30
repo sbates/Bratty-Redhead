@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Alien Technology Tuning Challenge - WYSIWYG</title>
+  <meta name="author" content="Sascha Bates">
+
+  
+  <meta name="description" content="A friend challenged me tonight to write a brilliant blog post on tuning a technology about which I know nothing. Actually I don&rsquo;t think you can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://brattyredhead.com/blog/2012/04/26/the-alien-technology-tuning-challenge">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="WYSIWYG" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">WYSIWYG</a></h1>
+  
+    <h2>no subtext here</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:brattyredhead.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Alien Technology Tuning Challenge</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-26T00:00:00-05:00" pubdate data-updated="true">Apr 26<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A friend challenged me tonight to write a brilliant blog post on tuning a technology about which I know nothing. Actually I don&rsquo;t think you can really do that. I don&rsquo;t think you can write a brilliant blog post unless you&rsquo;ve participated in some kind of failure/stress activity with a product.&nbsp; <p />Until you&rsquo;ve seen real life interact with your infrastructure, it&rsquo;s all just theories and beer.&nbsp; But after a long day debugging Chef code I wrote in a way I wish I&rsquo;d never written (no really, I don&rsquo;t want my name anywhere on some of this stuff!), I thought I&rsquo;d take a little downtime to read about a product I&rsquo;m utterly clueless about.&nbsp; Because that&#8217;s fun.&nbsp; YES IT IS.<p />How clueless? After he challenged me, I opted to get in a bike ride while the weather was nice (rumor predicts snow this weekend). While pondering things on my bike, I finally stopped for a sec, took out my phone and googled &#8216;Redis Rescue Throughput.&#8217;&nbsp; And when I found nothing at all useful, I sent him a text &ldquo;Did you actually use the words &#8216;rescue throughput&#8217; earlier?&rdquo;<p />Can you guess what he said to me? He said, &ldquo;Go write a brilliant blog post on Optimizing Redis for Resque Throughput.&rdquo;&nbsp; Now you know how much I know about <a href="https://github.com/defunkt/resque" title="resque" target="_blank">Resque</a>.&nbsp; That would be a big, embarrassing ZERO.&nbsp; As for Redis, I know it&#8217;s an in-memory data store.&nbsp; That&#8217;s it.<p />So now it might not surprise anyone who knows me that this evening did not turn into a big brainstorming session for Redis tuning params.&nbsp; Once I tracked down the Resque github page I was all</p>
+<p>&nbsp;</p>
+<p><img src="/images/allthethings.jpg"</img></p>
+<p>And it&rsquo;s written in Ruby. This is kind of dorky of me, but I still get a little thrill whenever I read source code and know what&rsquo;s going. I looked at some of the examples and thought, OH HEY, I see what you did there! Not that I&rsquo;m any kind of a genius. But it&rsquo;s fun to realize I can read it.<p />And so then I spent the evening reading about Resque, looking at the source code and reading blog posts about it.&nbsp; I adore queuing software. I love the idea that we can pop little bits of data into a store and have it consumed asynchronously, without having other processes blocked while waiting for something to complete. It always makes me happy to have asynchronicity in place.<p />This of course is mostly from years of supporting projects in the early years where devs didn&rsquo;t understand or know about asynchronous communication. Lots of our problems back in the day were related to synchronous calls blocking until the app crashed.&nbsp; Good times.<p />When I encounter open source queuing applications, I get a warm fuzzy.&nbsp; I grew up professionally in a world that only acknowledged one queuing tool: IBM MQ. IBM built an enormous industry around high availability messaging and I had no idea there were other, easy-to-use tools available in the wild, until I got involved with open source.&nbsp; When I first came across RabbitMQ I was enchanted just because it was the first free, easy to use queuing tool I met; when I come from a world where so many are led to believe that you should pay millions of dollars for a decent, reliable tool.</p>
+<p>Then I remembered! o craps! I&rsquo;m supposed to be thinking about in memory database optimization for this queuing stuff, NOT reading about the queuing!&nbsp; Unfortunately, it&rsquo;s now late and I have to get up early tomorrow, so I guess I lose the alien tuning challenge. But I can leave you with common sense and thoughts based on what I see in the redis.conf.<p />Tuning your in memory data store for performance throughput:<p /></p>
+<p><span style="font-size: medium;"><strong>Don&rsquo;t be stupid. </strong></span></p>
+<ul>
+<li>Read the config options.&nbsp; Am I the only one who loves reading config files? Probably. </li>
+<li>Also read the <a href="http://redis.io/topics/virtual-memory" title="Redis VM" target="_blank">Redis page on virtual memory</a>.&nbsp; </li>
+<li>Dedicate instances to your queuing activities.&nbsp; Don&rsquo;t cause data with disparate requirements to co-exist. Competing data sets could also cause developer hair pulling fights over whose app is breaking things.</li>
+</ul>
+<p><span style="font-size: medium;"><strong>Disk I/O and resource contention</strong></span></p>
+<ul>
+<li>Avoid frequent disk writes, esp if you have multiple instances, because you risk I/O contention</li>
+<li>Avoid excessive logging for the same reason</li>
+<li>Avoid virtual machines </li>
+<li><a href="http://www.youtube.com/watch?v=H7PJ1oeEyGg" target="_blank">Get a fucking ssd?</a> Maybe not if you avoid needing to write to disk much, since we&#8217;re more concerned with ALL THE RAMS.</li>
+<li>Know how much memory you will need and MONITOR usage and trending BEFORE you use it all up.</li>
+<li>Your data lives in a Memory-based container.&nbsp; Understand the Max Memory policy</li>
+</ul>
+<p><span style="font-size: medium;"><strong>Connections</strong></span></p>
+<ul>
+<li>Manage your max clients - just because it defaults to 10,000 doesn&rsquo;t make it right.</li>
+<li>Ensure you have enough file descriptors for all your connections plus whatever else the DB needs to keep functioning.&nbsp; If you limit your max connections, you can probably leave the FD unlimited. Or you can limit your FDs as it looks like Redis is smart enough to use those to set connections.</li>
+<li><span style="color: #ff0000;">Either way - be aware of the relationship between number of potential clients connecting, max file descriptors and max client connections.&nbsp; Or you will be sad.</span></li>
+<li>Connection timeouts - this is a tricky topic. If your data store is separated from your queue manager by a firewall, you probably can&rsquo;t leave it on infinite. Firewalls will timeout your connection and not tell you about it. This will either confuse the queue manager and cause it to error or it will possibly be smart enough to open a new connection.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; If the latter, you will eventually run out of file descriptors or allowed connections on the data store side unless the data store is also smart.</p>
+<p><span style="font-size: medium;"><strong>Redis</strong> </span>(did I mention I know nothing about Redis? It&#8217;s an in-memory data store, right?) I read the redis.conf and skimmed the Virtual Memory page.</p>
+<ul>
+<li>Disable active rehashing </li>
+<li>Understand your VM options</li>
+<li>Understand your typical message sizes and size your paging accordingly</li>
+</ul>
+<p>That&#8217;s all I got. You should verify anything you read here against your own requirements and get a second opinion.&nbsp; Every situation is unique. All of these relate to production environments and could be specific to a low latency goal. Memory conservation and data criticality may be conflicting priorities or require compromise.&nbsp;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sascha Bates</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-26T00:00:00-05:00" pubdate data-updated="true">Apr 26<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://brattyredhead.com/blog/2012/04/26/the-alien-technology-tuning-challenge/" data-via="sascha_d" data-counturl="http://brattyredhead.com/blog/2012/04/26/the-alien-technology-tuning-challenge/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/15/yak-hacking/" title="Previous Post: Yak Hacking - A Story">&laquo; Yak Hacking - A Story</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/04/27/my-favorite-jvm-arg-ever/" title="Next Post: My Favorite JVM Arg EVER">My Favorite JVM Arg EVER &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/27/finding-sanity-with-chef/">Finding Sanity With Chef</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/08/test/">test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/27/my-favorite-jvm-arg-ever/">My Favorite JVM Arg EVER</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/26/the-alien-technology-tuning-challenge/">The Alien Technology Tuning Challenge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/15/yak-hacking/">Yak Hacking - A Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/01/weekend-chef-and-puppet-projects/">Weekend Chef and Puppet Projects</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/26/annoying-recruiter-call-45/">Annoying Recruiter Call #45</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/23/i-am-not-a-fangirl/">I am not a fangirl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/19/puppet-for-chef-users-part-2-when-is-a-node-a/">Puppet for Chef Users - Part 2 - When is a node a node? </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/07/puppet-for-chef-users/">Puppet for Chef Users</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sascha_d", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sascha_d" class="twitter-follow-button" data-show-count="false">Follow @sascha_d</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:sascha_d">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "sascha_d"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sascha Bates -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

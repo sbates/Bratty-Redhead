@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Chef | WYSIWYG]]></title>
+  <link href="http://brattyredhead.com/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://brattyredhead.com/"/>
+  <updated>2012-05-28T22:52:18-05:00</updated>
+  <id>http://brattyredhead.com/</id>
+  <author>
+    <name><![CDATA[Sascha Bates]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Finding Sanity With Chef]]></title>
+    <link href="http://brattyredhead.com/blog/2012/05/27/finding-sanity-with-chef/"/>
+    <updated>2012-05-27T21:57:00-05:00</updated>
+    <id>http://brattyredhead.com/blog/2012/05/27/finding-sanity-with-chef</id>
+    <content type="html"><![CDATA[<p>A few years ago, I was largely ignorant of open source. I’d worked with a few products like Apache and JBoss, but was only peripherally aware of the community.  I’d been doing the same kind of systems design and build work for several years, most of it Java-based middleware products like WebSphere and JBoss. I was all shell scripts and enterprise infrastructure. As I moved from client to client, I tried to automate them and enable development as much as possible via those shell scripts, but I knew nothing of formal configuration management or its associated open source tools.</p>
+
+<p>In 2010 I landed on a development project at a large retail company that aimed to transform development and operations teams using Agile and Devops methodologies. This is where I first heard the terms “configuration management” and “devops.” I had no idea what was going on, no knowledge of any of the tools and just one man’s faith in my ability to pretty much do anything.  He said to me, “Go learn Ruby, now go learn Chef.  Now write me some cookbooks.”  My first thought was, “Wtf is Chef?”</p>
+
+<p>Configuration Management’s catchphrase is “Infrastructure as Code.” Server configs are declared beforehand with functional blocks of idempotent code. The code is stored in source control instead of a scripts directory on the admin server. Instead of old school, hand crafted servers, each a little unique, the configuration code is applied in a way that guarantees uniformity regardless of how many servers. Idempotent means the same configurations can be applied multiple times without unnecessary updates. These days we no longer give our servers cute names.  There are too many servers and other devices for us to love and manage them individually.  Chef aims to help you with that.</p>
+]]></content>
+  </entry>
+  
+</feed>

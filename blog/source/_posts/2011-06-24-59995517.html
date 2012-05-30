@@ -1,0 +1,37 @@
+--- 
+layout: post
+title: My ohai plugin
+published: true
+date: 2011-06-24
+categories: []
+
+posterous_url: http://blog.brattyredhead.com/59995517
+posterous_slug: "59995517"
+---
+<p><a href="https://github.com/sbates/Chef-odds-n-ends/blob/master/ohai/parse_host_plugin.rb" title="The plugin at github" target="_blank">The plugin at github</a></p>
+<p>When we started the Chef infrastructure automation project last year,  a dev team started up at nearly the same time.&nbsp; I didn't know enough  about Chef to have (much of) an opinion on how others were addressing  cookbook issues they faced. So for the first few months, I worked on my  problems to solve while the devs worked on theirs.&nbsp; I did eventually  started paying attention to what was going on with the dev team and  discovered that they had started to create role names that looked like  app_name_env(e.g. riak_prod), causing a role for each app to be created  in each environment, but with nearly identical run lists.&nbsp; They were  labeling their attributes with environment and used the roles to sort  them out.</p>
+<p>So we came up with a quick solution.&nbsp; We created an attribute called  node[:env] and put it in a role called env_dev, env_qa, etc.&nbsp; And the  same goes for other things we needed to set like node[:swimlane] and  node[:zone]. Every time a node was created, relevant env attribute roles  were added along with the platform_base and any application roles.&nbsp; We  all refactored our code and started using the env variable to sort out  environment-specific attributes. This worked well in the short term, for  about 6 months.</p>
+<p>About 2 months ago, we started planning for provisioning a second  data center.&nbsp; With another data center containing two environments (prod  and stage) came a location issue.&nbsp; Now we have two sets of ntp servers,  different DNS servers and a whole host of location-specific coding  issues. I went to go add some location-specific roles and started  thinking about the refactoring we&rsquo;d need to do to account for two  locations.</p>
+<p>As I started to make the first role, I realized that this was quickly  becoming an unwieldy solution.&nbsp; We were configuring the nodes managed  by our automation system <strong>by hand</strong>.&nbsp; This boggled me. And the number of managed nodes continues to grow.</p>
+<p>&nbsp;</p>
+<p>One of the problems we struggle with is that we have no system of  record.&nbsp; We get most of our new server info on spreadsheets from various  project teams or ops/mgmt teams.&nbsp; We can&rsquo;t call any central system API  to get info. &nbsp;All the servers have static IPs and minimum of two  networks. The ops team doesn&rsquo;t believe in DNS. So we have to keep all of  this information somewhere or figure out clever ways to deduce the  information we want (or set roles by hand, ugh!).</p>
+<p>A secondary problem I had with the roles is that their attributes  weren&rsquo;t set early enough for me to use logic in the attributes file.&nbsp;  Node[:env] didn&rsquo;t get set until after attributes files were compile  which was causing me other problems.</p>
+<p>So as I thought about the location role, I rebelled.&nbsp; I was <strong>done</strong> setting roles by hand.&nbsp; UGH!</p>
+<p>All of our host names are the same length and contain a rich amount  of data encoded in their names.&nbsp; I thought that there must be a way to  extract and label that information for use as node attibutes.&nbsp; I&rsquo;m no  Ruby genius and I still struggle with anything beyond fancy scripting,  but it&rsquo;s extra fun for me to run at a problem head on and obsess over  it. And that&rsquo;s what I did.&nbsp;</p>
+<p>When I came out of the weekend, I had an oHai plugin that parsed a  host name, set 3 top level attributes and 5 nested attributes thatI  thought might be useful for logic in cookbooks.&nbsp; It looks like this:</p>
+<p>[root@pxqpkyapp05 tmp]# ohai -f /tmp/plugins/parse_host_plugin.rb&nbsp; -l debug<br /> [Fri, 24 Jun 2011 19:09:09 -0500] DEBUG: ohai plugin: parse_host: parsing new host pxqpkyapp05<br /> {</p>
+<p><strong>&nbsp; "environment": "qa"</strong><br /> <strong>&nbsp; "location": "pismo",</strong><br /> &nbsp; "hostdata": {<br /> &nbsp;&nbsp;&nbsp; "server_type": "application",<br /> &nbsp;&nbsp;&nbsp; "loc": "p",<br /> &nbsp;&nbsp;&nbsp; "env": "q",<br /> &nbsp;&nbsp;&nbsp; "application": "Pooky",<br /> &nbsp;&nbsp;&nbsp; "platform": "solaris"<br /> &nbsp; },<br /> }<br /> ﻿</p>
+<p>I didn&rsquo;t think this would be useful to anyone but us.&nbsp; Surely  everyone else was using Chef in the cloud, right?&nbsp; Heck no.&nbsp; It turns  out, as I was chatting with folks at Velocity last week, that several  people are data center-bound with encoded host names.&nbsp; Discussing it, I  thought it might be useful to share, even if it would require some  tweaking to make it work with any else&rsquo;s environment.</p>
+<p>Basically, I set a hash with environment data and then set variables  using a regex on the host name.&nbsp; I set the environment and location vars  separately and then put indexes in the hash for any values I want to  add into the hostdata hash.&nbsp; I took most of our custom logic out, like  the node[:zone] logic that no one needs, although I left in a custom  piece I had to add for an oddly named environment at a third data center  location.&nbsp; All app names and locations have been changed to protect the  innocent (that&rsquo;s me).</p>
+<p>I hope someone else can use it.&nbsp; It was my first step beyond recipes  and I&rsquo;m rather proud of it. I've already had a request from a team mate  to move the logic to a library so that we can use it in our host  management activities and that's what I'm working on now.&nbsp; I've created a  class and a function that uses the class, but need to translate it to  Chef-specific DSL.</p>
+<p>Here are some examples of how we're using them:</p>
+<p>&nbsp;</p>
+<p>in the recipe: dnsinfo = search(:dns, "id:#{node.location}")</p>
+<p>in the template:</p>
+<p>domain &lt;%= @dnsinfo["domain"] %&gt;<br />search &lt;%= @dnsinfo["search"] %&gt;<br />&lt;% @dnsinfo["nameservers"].each do |ns| %&gt;<br />nameserver &lt;%= ns %&gt;<br />&lt;% end %&gt;</p>
+<p># Unload unwanted packages<br />unless node.env == "dev" || node.attribute?("keep_gcc")<br />&nbsp;package "gcc" do<br />&nbsp;&nbsp; action :remove<br />&nbsp;end<br />end<p /></p>
+<p>chefsearch = search("chef_servers","env:#{node.env} AND id:#{node.hostdata.loc}*").first<br />node.set.chef.my_chef_server = chefsearch["id"]</p>
+<p>node.set.chef.server_url = "http://#{node.chef.my_chef_server}"<br />node.set.chef.mrepo_url = "http://#{node.chef.my_chef_server}/mrepo"<br />node.set.chef.proxy_url = "http://#{node.chef.my_chef_server}:8000"</p>
+<p>&nbsp;</p>
+<p>This will also come in handy once we've migrated to .10 where we can  set so many more things within Chef based on environment.&nbsp; The plugin is  phrased in functions as my original plugin file was rather messy with  comments and things.&nbsp; I felt like breaking it down this way made it  easier to follow wth was going on.</p>
+<p>Please let me know if you find this useful or if you have questions.&nbsp;  This is my first community contribution and so I'm kind of like the kid  with the cool shiny thing they want to show everyone.&nbsp; Look at my  shiny!</p>

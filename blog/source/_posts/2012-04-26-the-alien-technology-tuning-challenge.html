@@ -1,0 +1,45 @@
+--- 
+layout: post
+title: The Alien Technology Tuning Challenge
+published: true
+date: 2012-04-26
+categories: []
+
+posterous_url: http://blog.brattyredhead.com/the-alien-technology-tuning-challenge
+posterous_slug: the-alien-technology-tuning-challenge
+---
+<p>A friend challenged me tonight to write a brilliant blog post on tuning a technology about which I know nothing. Actually I don&rsquo;t think you can really do that. I don&rsquo;t think you can write a brilliant blog post unless you&rsquo;ve participated in some kind of failure/stress activity with a product.&nbsp; <p />Until you&rsquo;ve seen real life interact with your infrastructure, it&rsquo;s all just theories and beer.&nbsp; But after a long day debugging Chef code I wrote in a way I wish I&rsquo;d never written (no really, I don&rsquo;t want my name anywhere on some of this stuff!), I thought I&rsquo;d take a little downtime to read about a product I&rsquo;m utterly clueless about.&nbsp; Because that's fun.&nbsp; YES IT IS.<p />How clueless? After he challenged me, I opted to get in a bike ride while the weather was nice (rumor predicts snow this weekend). While pondering things on my bike, I finally stopped for a sec, took out my phone and googled 'Redis Rescue Throughput.'&nbsp; And when I found nothing at all useful, I sent him a text &ldquo;Did you actually use the words 'rescue throughput' earlier?&rdquo;<p />Can you guess what he said to me? He said, &ldquo;Go write a brilliant blog post on Optimizing Redis for Resque Throughput.&rdquo;&nbsp; Now you know how much I know about <a href="https://github.com/defunkt/resque" title="resque" target="_blank">Resque</a>.&nbsp; That would be a big, embarrassing ZERO.&nbsp; As for Redis, I know it's an in-memory data store.&nbsp; That's it.<p />So now it might not surprise anyone who knows me that this evening did not turn into a big brainstorming session for Redis tuning params.&nbsp; Once I tracked down the Resque github page I was all</p>
+<p>&nbsp;</p>
+<p><img src="/images/allthethings.jpg"</img></p>
+<p>And it&rsquo;s written in Ruby. This is kind of dorky of me, but I still get a little thrill whenever I read source code and know what&rsquo;s going. I looked at some of the examples and thought, OH HEY, I see what you did there! Not that I&rsquo;m any kind of a genius. But it&rsquo;s fun to realize I can read it.<p />And so then I spent the evening reading about Resque, looking at the source code and reading blog posts about it.&nbsp; I adore queuing software. I love the idea that we can pop little bits of data into a store and have it consumed asynchronously, without having other processes blocked while waiting for something to complete. It always makes me happy to have asynchronicity in place.<p />This of course is mostly from years of supporting projects in the early years where devs didn&rsquo;t understand or know about asynchronous communication. Lots of our problems back in the day were related to synchronous calls blocking until the app crashed.&nbsp; Good times.<p />When I encounter open source queuing applications, I get a warm fuzzy.&nbsp; I grew up professionally in a world that only acknowledged one queuing tool: IBM MQ. IBM built an enormous industry around high availability messaging and I had no idea there were other, easy-to-use tools available in the wild, until I got involved with open source.&nbsp; When I first came across RabbitMQ I was enchanted just because it was the first free, easy to use queuing tool I met; when I come from a world where so many are led to believe that you should pay millions of dollars for a decent, reliable tool.</p>
+<p>Then I remembered! o craps! I&rsquo;m supposed to be thinking about in memory database optimization for this queuing stuff, NOT reading about the queuing!&nbsp; Unfortunately, it&rsquo;s now late and I have to get up early tomorrow, so I guess I lose the alien tuning challenge. But I can leave you with common sense and thoughts based on what I see in the redis.conf.<p />Tuning your in memory data store for performance throughput:<p /></p>
+<p><span style="font-size: medium;"><strong>Don&rsquo;t be stupid. </strong></span></p>
+<ul>
+<li>Read the config options.&nbsp; Am I the only one who loves reading config files? Probably. </li>
+<li>Also read the <a href="http://redis.io/topics/virtual-memory" title="Redis VM" target="_blank">Redis page on virtual memory</a>.&nbsp; </li>
+<li>Dedicate instances to your queuing activities.&nbsp; Don&rsquo;t cause data with disparate requirements to co-exist. Competing data sets could also cause developer hair pulling fights over whose app is breaking things.</li>
+</ul>
+<p><span style="font-size: medium;"><strong>Disk I/O and resource contention</strong></span></p>
+<ul>
+<li>Avoid frequent disk writes, esp if you have multiple instances, because you risk I/O contention</li>
+<li>Avoid excessive logging for the same reason</li>
+<li>Avoid virtual machines </li>
+<li><a href="http://www.youtube.com/watch?v=H7PJ1oeEyGg" target="_blank">Get a fucking ssd?</a> Maybe not if you avoid needing to write to disk much, since we're more concerned with ALL THE RAMS.</li>
+<li>Know how much memory you will need and MONITOR usage and trending BEFORE you use it all up.</li>
+<li>Your data lives in a Memory-based container.&nbsp; Understand the Max Memory policy</li>
+</ul>
+<p><span style="font-size: medium;"><strong>Connections</strong></span></p>
+<ul>
+<li>Manage your max clients - just because it defaults to 10,000 doesn&rsquo;t make it right.</li>
+<li>Ensure you have enough file descriptors for all your connections plus whatever else the DB needs to keep functioning.&nbsp; If you limit your max connections, you can probably leave the FD unlimited. Or you can limit your FDs as it looks like Redis is smart enough to use those to set connections.</li>
+<li><span style="color: #ff0000;">Either way - be aware of the relationship between number of potential clients connecting, max file descriptors and max client connections.&nbsp; Or you will be sad.</span></li>
+<li>Connection timeouts - this is a tricky topic. If your data store is separated from your queue manager by a firewall, you probably can&rsquo;t leave it on infinite. Firewalls will timeout your connection and not tell you about it. This will either confuse the queue manager and cause it to error or it will possibly be smart enough to open a new connection.</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; If the latter, you will eventually run out of file descriptors or allowed connections on the data store side unless the data store is also smart.</p>
+<p><span style="font-size: medium;"><strong>Redis</strong> </span>(did I mention I know nothing about Redis? It's an in-memory data store, right?) I read the redis.conf and skimmed the Virtual Memory page.</p>
+<ul>
+<li>Disable active rehashing </li>
+<li>Understand your VM options</li>
+<li>Understand your typical message sizes and size your paging accordingly</li>
+</ul>
+<p>That's all I got. You should verify anything you read here against your own requirements and get a second opinion.&nbsp; Every situation is unique. All of these relate to production environments and could be specific to a low latency goal. Memory conservation and data criticality may be conflicting priorities or require compromise.&nbsp;</p>

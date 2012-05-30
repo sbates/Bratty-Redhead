@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Wherein Sascha ponders a question that's already been asked a million times - WYSIWYG</title>
+  <meta name="author" content="Sascha Bates">
+
+  
+  <meta name="description" content="What is DevOps?&nbsp; 2 years ago I had no idea.&nbsp; I was living the cycle of poorly planned, crappily implemented projects where artisan server &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://brattyredhead.com/blog/2011/07/21/wherein-sascha-ponders-a-question-thats-alrea">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="WYSIWYG" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">WYSIWYG</a></h1>
+  
+    <h2>no subtext here</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:brattyredhead.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Wherein Sascha Ponders a Question That's Already Been Asked a Million Times</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-21T00:00:00-05:00" pubdate data-updated="true">Jul 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>What is DevOps?<span>&nbsp; </span>2 years ago I had no idea.<span>&nbsp; </span>I was living the cycle of poorly planned, crappily implemented projects where artisan server builds were the only way anything was built, even when it meant 125 servers. <span>&nbsp;&nbsp;</span>I actually had a PM say to my team, &ldquo;We don&rsquo;t have TIME to plan!<span>&nbsp; </span>You need to start building servers!&rdquo;<span>&nbsp; </span>I was gone for two weeks to Europe right after that and when I came back, one of my sysadmins had indeed kickstarted all 125 servers. We then spent the next 6 months fixing configurations via ssh cli foo (for i in servers; do ssh $i some monkeypatch;done).</p>
+<p>I tell you this anecdote so you can understand the utter delight and abandon with which I embraced the DevOps movment when introduced 18 months ago.<span>&nbsp; </span>I was immediately wowed by the positive, inclusive attitude.<span>&nbsp; </span>I read about continuous deployment, continuous integration, test driven deployment, configuration management tools and the personal experiences of several people.<span>&nbsp; </span>I found the<a href="http://dev2ops.org/blog" title="DTO Blog" target="_blank"> DTO blog</a>, the <a href="http://theagileadmin.com/" title="Agile Admin" target="_blank">Agile Admin</a> and, of course, the Etsy <a href="http://codeascraft.etsy.com/" title="Code as Craft" target="_blank">Code as Craft</a> blog.<span>&nbsp; </span></p>
+<p><span>&nbsp;</span>It&#8217;s great to see people engaged, animated and motivated to make things awesome.<span>&nbsp; </span>Instead of being beat down, embracing the ops-as-victims lifestyle, they&#8217;ve taken charge of their world and started trying to change what&#8217;s not working instead of just turning into the troll under the bridge.<span>&nbsp; </span>I&rsquo;ve spent over 10 years in corporate and I know how easy it is to feel beat down by the constant cycle of develop, implement, fail, support the failure forever.<span>&nbsp; </span>So I love me a movement that engages and tries to proactively to end the failure cycle.<span>&nbsp; </span></p>
+<p>In June I had my first community interaction events at Velocity and Devopsdays, in San Jose. The atmosphere was different from any other industry conference I&rsquo;ve attended in the past.<span>&nbsp; </span>It was awesome.<span>&nbsp; </span>The energy was amazing.<span>&nbsp; </span>Many of the talks were inspiring(<a href="http://www.kitchensoap.com/" title="John Allspaw" target="_blank">John Allspaw</a>, Adam Jacob, I&rsquo;m talking to you).<span>&nbsp; </span>I finished the week with a hyperactive energy and desire to channel that energy into about 10 new things I&rsquo;d learned about.</p>
+<p>A common theme during presentations, panels <span>&nbsp;</span>and over beer was the attempt to define the DevOps movement. <span>&nbsp;</span>I heard a lot of people at Velocity tell me what it&#8217;s not.<span>&nbsp; </span>It&#8217;s not a tool, it&#8217;s not a job, it&#8217;s not a job description; it&#8217;s not a title.<span>&nbsp; </span>I heard a lot of, &#8220;if you claim to be &#8216;devops,&#8217; yer doin it wrong.&#8221;</p>
+<p><span>&nbsp;</span>Interestingly, in high school and college, I ran with a punk rock/goth crowd with a similar attitude.<span>&nbsp; </span>&#8220;If you claim you&#8217;re punk rock or goth, yer doin it wrong.&#8221;<span>&nbsp; </span>We were too cool for labels.<span>&nbsp; </span>In our own minds, we were outside the labeling system.<span>&nbsp; </span>Sticking a label on us or on yourself was lame and small minded.<span>&nbsp; </span>We&#8217;d say things like, &#8220;I&#8217;m not goth.<span>&nbsp; </span>I&#8217;m just myself.<span>&nbsp; </span>I don&rsquo;t conform to labels.&#8221;<span>&nbsp; </span>We were pretentious by pretending that only pretentious people actually labeled themselves.<span>&nbsp; </span>If you claimed to be punk, obviously you were a poser.</p>
+<p>I&#8217;m sensing a lot of that same attitude from the folks who say, &#8220;if you call yourself a devop, yer doin it wrong.&#8221;<span>&nbsp; </span>I understand some of the desire to protect the movement from spoilage and the term from overuse.<span>&nbsp; </span>We want to keep our counterculture to ourselves.<span>&nbsp; </span>It&rsquo;s not for the likes of HP and IBM and their re-branding of old, tired products.<span>&nbsp; </span></p>
+<p>I understand what people mean.<span>&nbsp; </span>Labels get in the way of the movement.<span>&nbsp; </span>Labels are limiting and, if you say you &#8220;do devops&#8221; you risk limiting yourself and the perceptions of others. I can even empathize.<span>&nbsp; </span>Every time a job comes through my inbox labeled &ldquo;devops,&rdquo; I cynically assume it&rsquo;s someone who wants to rope some poor sap of a sysadmin into a crap job by labeling it with something cool, probably hoping to get two kinds of work for the price of one.<span> </span></p>
+<p>Everyone claims to be living in the DevOps moment, but what does it really mean?<span>&nbsp; Several people have asked this question and tried to answer it.&nbsp; </span>My business card has &lsquo;DevOps&rsquo; on it.<span>&nbsp; </span>But it also says Problem Solving, Middleware and other things.<span>&nbsp; </span>How dare I list Devops among my skill set? <span>&nbsp;</span>Here&#8217;s the thing.<span>&nbsp; </span>If DevOps isn&#8217;t a tool, if it isn&#8217;t a job description, if it isn&#8217;t a title, it still must describe something right?<span>&nbsp; </span>It can&rsquo;t be an empty set.<span>&nbsp; </span>Here&#8217;s what I was thinking when I put it on my card.<span>&nbsp; </span>DevOps is a framework and a philosophy.<span>&nbsp; </span>It&#8217;s a lightly codified framework for an attitude and approach to solving problems. DevOps contains the seeds from which a better culture can grow. <span>&nbsp;</span>It assumes inclusiveness, accountability and that everyone is smart. It dismisses boundaries. When I put DevOps on my business card, what I&#8217;m saying is, the word defines part of the way I think, the way I approach problem solving and it also defines the attitude I&#8217;m looking for when evaluating engagements.</p>
+<p>Because of all the positive vibe around DevOps, it bothers me when I see snotty tweets or hear snarky remarks during conference presentations.&nbsp; You can call bullshit when HP starts trying to claim that its monitoring suite is &#8220;devops friendly,&#8221; or when Gartner starts writing articles that could be subtitled &#8220;How to cash in on the DevOps movement.&#8221;&nbsp; But projecting an attitude of exclusivity or just plain snark because you&#8217;re feeling protective can only hurt things.&nbsp; New folks are continually stumbling upon parts of DevOps or agile infrastructure as a movement.&nbsp; Some of them have been living the attitude for years and maybe just now realizing there are others out there.&nbsp; I guess I&#8217;d rather be a hippy flashing a peace sign at people who happen across DevOps than a hipster turning my nose up at anyone who doesn&#8217;t meet my specific criteria for cool.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sascha Bates</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-21T00:00:00-05:00" pubdate data-updated="true">Jul 21<span>st</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://brattyredhead.com/blog/2011/07/21/wherein-sascha-ponders-a-question-thats-alrea/" data-via="sascha_d" data-counturl="http://brattyredhead.com/blog/2011/07/21/wherein-sascha-ponders-a-question-thats-alrea/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/24/reason-eleventyseven-to-automate/" title="Previous Post: Reason #eleventyseven to automate">&laquo; Reason #eleventyseven to automate</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/02/things-i-learned-at-surge/" title="Next Post: Things I learned at Surge">Things I learned at Surge &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/27/finding-sanity-with-chef/">Finding Sanity With Chef</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/08/test/">test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/27/my-favorite-jvm-arg-ever/">My Favorite JVM Arg EVER</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/26/the-alien-technology-tuning-challenge/">The Alien Technology Tuning Challenge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/15/yak-hacking/">Yak Hacking - A Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/01/weekend-chef-and-puppet-projects/">Weekend Chef and Puppet Projects</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/26/annoying-recruiter-call-45/">Annoying Recruiter Call #45</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/23/i-am-not-a-fangirl/">I am not a fangirl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/19/puppet-for-chef-users-part-2-when-is-a-node-a/">Puppet for Chef Users - Part 2 - When is a node a node? </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/07/puppet-for-chef-users/">Puppet for Chef Users</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sascha_d", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sascha_d" class="twitter-follow-button" data-show-count="false">Follow @sascha_d</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:sascha_d">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "sascha_d"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sascha Bates -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

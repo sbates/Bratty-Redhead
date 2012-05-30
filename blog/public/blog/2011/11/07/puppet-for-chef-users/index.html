@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Puppet for Chef Users - WYSIWYG</title>
+  <meta name="author" content="Sascha Bates">
+
+  
+  <meta name="description" content="I picked up a Puppet gig recently.&nbsp; The client already has an OS level Puppet install working.&nbsp; My job is to use my understanding of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://brattyredhead.com/blog/2011/11/07/puppet-for-chef-users">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="WYSIWYG" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">WYSIWYG</a></h1>
+  
+    <h2>no subtext here</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:brattyredhead.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Puppet for Chef Users</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T00:00:00-06:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I picked up a Puppet gig recently.&nbsp; The client already has an OS level Puppet install working.&nbsp; My job is to use my understanding of automation tooling to configure an app stack.&nbsp; I was pretty cocky.&nbsp; I thought, well, I really know Chef after over a year working with it and extending it at another client, how hard can Puppet be?&nbsp;</p>
+<p>It&#8217;s not hard really.&nbsp; But it&#8217;s not cooperative either.&nbsp; They look really similar, Puppet and Chef, but I&#8217;m finding it hard to get Puppet to do what I want.&nbsp; First, I need to figure out what I want to do.&nbsp; Then I automatically consider how I would do it in chef.&nbsp; Then I have to figure out how to do it in Puppet.&nbsp; This is harder than it sounds as a direct translation of something is not always the most useful, graceful or appropriate method.</p>
+<p>I keep wishing I could find an article or manual on the Interwebs called something like &#8220;Puppet for Chef Users,&#8221; where it would translate all the things done in Chef to what they do in Puppet.&nbsp; I haven&#8217;t found it.&nbsp; And I don&#8217;t have all the answers.&nbsp; As you can see here, I actually have very few answers.&nbsp; None really.&nbsp; But I&#8217;m eking out answers as I go.</p>
+<p>Example: I want to set a node attribute.&nbsp;</p>
+<p>Well, hm.&nbsp; Ok.&nbsp; A node is still a node(mostly) in Puppet.&nbsp; Puppet has Facter instead of Ohai.&nbsp; Right, I knew that.&nbsp; So, then I have to address the philosophical question, is that the correct way to do what I want?&nbsp; Do I add things like myapp_home, java_install_dir to Facter?&nbsp; Yah, I think I do.&nbsp; I want stuff outside the myapp module to know where the myapp log dir is, maybe (it could happen).</p>
+<p>Let&#8217;s say I do want to add custom facts.&nbsp; That&#8217;s just like node attributes aren&#8217;t they?&nbsp; I&#8217;m still not positive, but I&#8217;ve got to make a decision and start coding something.&nbsp; I can always revise if I&#8217;m wrong.</p>
+<p>Alright, where&#8217;s the attributes file?&nbsp; Whoops!&nbsp; No attribute file.&nbsp; I <a href="http://forge.puppetlabs.com/tags/webserversdownloaded" target="_blank">downloaded a sample Apache module from puppet labs </a>in order to have an example to work with.&nbsp; I needed the example to be complex enough to have custom attributes but not so complicated I couldn&#8217;t read it.&nbsp; I figured an Apache server was a good compromise.&nbsp;</p>
+<p>I found that Puppet modules can define new facts in the lib directory of the module.&nbsp; Strangely, at first I thought it was defined in a directory called &#8216;plugins&#8217; as I first noticed the new facts defined there.&nbsp; But as I read the <a href="http://docs.puppetlabs.com/guides/plugins_in_modules.html" target="_blank">documentation on defining new facts</a>, I realized that was the old directory. The new way dictates that all custom code goes in modules/myapp/lib.&nbsp;</p>
+<p>The directory storing new facts has small rb files with code similar to ohai snippets.&nbsp; This seemed like more coding than I needed, but I&#8217;m still not sure how to just set an attribute without writing a code snippet.&nbsp; Here&#8217;s the code example I found:</p>
+<p>require &#8216;facter&#8217;<br />Facter.add(:gem_passenger_version) do<br />&nbsp;&nbsp;&nbsp; setcode do %x{rpmquery &#8211;qf=&#8217;%{VERSION}&#8217; rubygem-passenger} end<br />end</p>
+<p>here&#8217;s my experimental code:</p>
+<p>require &#8216;facter&#8217;<br />myapp_facts={&#8220;myapp_home&#8221; =&gt; &#8220;/opt/myapp&#8221;, &#8220;myapp_server_dir&#8221; =&gt; &#8220;/opt/myapp/server&#8221;,&#8221;myapp_log_dir&#8221; =&gt; &#8220;/var/log/myapp&#8221;}<p />myapp_facts.each do |k,v|<br />&nbsp; Facter.add(k) do<br />&nbsp;&nbsp;&nbsp; setcode do { k=v } end<br />&nbsp; end<br />end</p>
+<p>This is what came out of testing:</p>
+<p>[root@pixel rubylib]#&nbsp; RUBYLIB=. facter|grep myapp<br />myapp_home =&gt; /opt/myapp<br />myapp_log_dir =&gt; /var/log/myapp<br />myapp_server_dir =&gt; /opt/myapp/server</p>
+<p>So yay!&nbsp; I figured it out. I added my puppet equivalent of node attributes.&nbsp; Kind of.&nbsp; As far as I can tell, Facter is not hierarchical a la Ohai, so my node attributes are flattened instead of in a hierarchy.</p>
+<p>To recap, in Chef/In Puppet:</p>
+<ul>
+<li>Ohai/Facter</li>
+<li>node attributes/facts</li>
+<li>ohai is hierarchical json: facter is flat key =&gt; value pairs</li>
+<li>chef node attributes are defined in myapp/attributes/attribute.rb/Puppet facts are defined in myapp/lib/facts&nbsp;</li>
+</ul>
+<p>Coming soon, my adventures with Hiera and data storage, also Puppet ruby DSL vs Puppet Puppet DSL.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sascha Bates</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T00:00:00-06:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://brattyredhead.com/blog/2011/11/07/puppet-for-chef-users/" data-via="sascha_d" data-counturl="http://brattyredhead.com/blog/2011/11/07/puppet-for-chef-users/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/02/things-i-learned-at-surge/" title="Previous Post: Things I learned at Surge">&laquo; Things I learned at Surge</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/19/puppet-for-chef-users-part-2-when-is-a-node-a/" title="Next Post: Puppet for Chef Users - Part 2 - When is a node a node? ">Puppet for Chef Users - Part 2 - When is a node a node?  &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/27/finding-sanity-with-chef/">Finding Sanity With Chef</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/08/test/">test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/27/my-favorite-jvm-arg-ever/">My Favorite JVM Arg EVER</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/26/the-alien-technology-tuning-challenge/">The Alien Technology Tuning Challenge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/15/yak-hacking/">Yak Hacking - A Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/01/weekend-chef-and-puppet-projects/">Weekend Chef and Puppet Projects</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/26/annoying-recruiter-call-45/">Annoying Recruiter Call #45</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/23/i-am-not-a-fangirl/">I am not a fangirl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/19/puppet-for-chef-users-part-2-when-is-a-node-a/">Puppet for Chef Users - Part 2 - When is a node a node? </a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/07/puppet-for-chef-users/">Puppet for Chef Users</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("sascha_d", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/sascha_d" class="twitter-follow-button" data-show-count="false">Follow @sascha_d</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:sascha_d">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "sascha_d"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sascha Bates -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

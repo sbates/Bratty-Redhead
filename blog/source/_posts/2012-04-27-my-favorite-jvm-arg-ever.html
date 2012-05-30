@@ -1,0 +1,21 @@
+--- 
+layout: post
+title: My Favorite JVM Arg EVER
+published: true
+date: 2012-04-27
+categories: []
+
+posterous_url: http://blog.brattyredhead.com/my-favorite-jvm-arg-ever
+posterous_slug: my-favorite-jvm-arg-ever
+---
+<p>This is partially a post for posterity because I can never remember the format of this when I want it and I have to search all over the Internets for it.&nbsp; And for some reason, it's really hard to find with keywords.&nbsp; Possibly my google-fu sucks, but I actually think it's a java developer conspiracy.</p>
+<p>The first time I found this jvm arg, it was by accident.&nbsp; I was reading a page of comprehensive JVM args.&nbsp; No it wasn't for fun, although I was enjoying it.&nbsp; I was on a gig to help a client get rid of 20 second garbage collections that were crashing their site.&nbsp; So I was reading through the page just to see what might be useful and I found this:</p>
+<p><span style="font-size: medium;"><strong>-XX:MaxJavaStackTraceDepth=&lt;num&gt;</strong></span></p>
+<p>It was love at first sight.&nbsp; See, I know developers lurve their stack traces and exceptions.&nbsp; Truly.&nbsp; But I've met some truly horrendous apps.&nbsp; You know the kind.&nbsp; They throw 500 line stack traces every time someone types in a bad password. Or you have an overrun team that, once an app is in production, they don't have time to tune the app and so you are stuck with 2000 lines of stack trace for every exception, even though it only takes &lt; 10 to figure out where to look for trouble.</p>
+<p>After I found this and used it, I had bookmarked the page of wonderful jvm options, but it was dead the next time I went there. So I ended up searching the internet for it later and found that my googling led me all over.&nbsp; I found a stackoverflow discussion where a harried admin was asking about it and a herd of VERY ANGRY developers jumped all over him saying things like</p>
+<p>"How dare you truncate our wonderful stack traces!", and</p>
+<p>"An exception is called that because it's <em>exceptional</em>. There's a reason for it and you shouldn't truncate it!"&nbsp;</p>
+<p>Oh they were like an angry mob.</p>
+<p>But I have to tell you, this arg is an admin's best friend if you have apps in your care that can't be bothered with proper tuning on the dev side.&nbsp; Often this was because a client had a contract dev team come in, deliver an app and then leave.&nbsp; There was no one to fix it.</p>
+<p>There's no shame in cleaning up your log files so they are readable.&nbsp; It's tough to actually dig into a problem if you have thousands of lines of "benign" errors filling your world.&nbsp; This option allows you to limit the damage done by excessive logging while still seeing that an exception is being generated. Of course, with all the wonderful logging packages and tools with filters out there today, this sort of thing is less important if you are filtering, but there are lots of admins out there with nothing but the CLI, syslog and vi even today. This post is dedicated to them.</p>
+<p>&nbsp;</p>

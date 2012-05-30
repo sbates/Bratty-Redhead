@@ -1,0 +1,17 @@
+--- 
+layout: post
+title: "Reason #eleventyseven to automate"
+published: true
+date: 2011-06-24
+categories: []
+
+posterous_url: http://blog.brattyredhead.com/reason-eleventyseven-to-automate
+posterous_slug: reason-eleventyseven-to-automate
+---
+<p>About 4 years ago, I was working for a remote client, building a  large, fragile Yantra/WebSphere environment.&nbsp; The client had chosen to  use the WebSphere embedded messaging engine (instead of MQ) for systems  critical order processing.&nbsp; The project was big, I was busy, traveling  to the client site every week and I had a constant backlog of work.&nbsp; It  seemed like there was never enough time or people to get all the work  done.<p />One day the dev team came to me with their list of 15  queues that needed configuring in dev.&nbsp; I was already overrun, had no  time and typically working 12 hours or more on the days I was onsite.<p />If  you've ever worked with WebSphere, you know that you pretty much get  two choices for configs: the GUI console or scripts.&nbsp; The scripting  language is based on either jython or tcl but the WebSphere specific DSL  is a bitch to deal with if you don't know the syntax really well.<p />I  really wanted to write some WebSphere scripts to install and configure  the queues, but I told myself I just didn't have time, what with all of  the probable debugging and figuring out how to deal with the syntactical  challenges.&nbsp; I figured it would take me less time and I'd just kick out  the queue configs super quick via the GUI.&nbsp; The GUI is tedious but not  hard and I didn't have time to play with scripting, I thought.<p />Except.&nbsp;  All the naming was wrong apparently.&nbsp; All the queues had to be deleted a  few days later and re-created.&nbsp; I told myself the second time that it  wouldn't happen again and I'd just be wasting valuable time, writing  scripts that wouldn't be used again.<p />Except.&nbsp; They had to be  recreated a few times in the Test environment, for several reasons.&nbsp; And  then eventually they were revamped again to match up better with  something else.&nbsp; Not to mention we had to do the work on the queues in  prod.&nbsp; I hear that, after the project went live, they reconfigured the  queues a few more times after that.<p />This situation is one of the  more glaring moments where I can look back and say, man, you should have  taken the couple or 3 hours to write some automation scripts for a  seemingly trivial task.&nbsp; This would have made sense for several reasons:</p>
+<ul>
+<li>3 hours of concentrated (and let's face it fun) time to get some  scripts written, instead of numerous occasions being interrupted to do  trivial admin work by hand</li>
+<li>&nbsp;If I had written a script, anyone on the team or even someone from the noc could have done the work instead</li>
+<li>I might have left something after the project that was useful in the  long run as a legacy and as an example for further scripting for the  admins who stayed behind</li>
+</ul>
+<p><br />I was just telling this story last week and thought that it could  really stand repeating for posterity.&nbsp; Taking the extra time to write a  script that automates a lame manual process is NEVER time wasted.&nbsp; Not  ever.&nbsp; And if anyone tries to tell you differently, you're probably too  smart to be working with them.<br />﻿</p>
